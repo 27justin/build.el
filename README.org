@@ -1,0 +1,36 @@
+#+title: bzl.el
+#+description: Build Bazel targets directly through Emacs
+
+This package allows you to directly build [[https://github.com/bazelbuild/bazel][Bazel]] projects within Emacs
+without memorizing the targets.
+
+
+* Usage
+
+bzl.el exposes these interactive commands
++ ~bzl/run~
++ ~bzl/build~
++ ~bzl/test~
+
+It tries to be smart with queries to only show the likely appropiate
+targets for the given command (i.e. run/test).  ~bzl/build~ lists all
+targets the project has.
+
+* Demo
+
+* Installation
+
+** Manually
+Clone the repository:
+#+BEGIN_SRC bash
+ git clone https://github.com/27justin/bzl.el ~/.emacs.d/site-lisp/bzl.el
+#+END_SRC
+
+Add it to your load path
+
+#+BEGIN_SRC elisp
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/bzl.el")
+  (require 'bzl)
+#+END_SRC
+
+Done.
