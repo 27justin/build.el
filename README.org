@@ -18,6 +18,8 @@ targets the project has.
 
 * Demo
 
+#+html: <video loop autoplay controls src="https://github.com/user-attachments/assets/5dfb9f29-300b-4b19-97c3-681b96098100"></video>
+
 * Installation
 
 ** Manually
