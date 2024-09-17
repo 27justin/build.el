@@ -11,17 +11,17 @@
 ;;; Requirements:
 
 (require 'build-api)
+(require 'make-mode)
 
 ;;; Code
 
 (defun make-project-p ()
-  (if (project-current)
-      (file-exists-p (format "%s/Makefile" (project-root (project-current))))
-    nil))
+  (build--project-file-exists "Makefile"))
 
 (defun make--get-targets (callback)
   "Call `callback' asynchronously with all Make targets that match `query'."
   (let ((buffer (generate-new-buffer "*make-targets*")))  ;; Create a temporary buffer to capture output
+    (makefile-pickup-targets)
     (make-process
      :name "Make Targets Process"
      :buffer buffer
@@ -41,7 +41,7 @@
    )
   (make--get-targets (lambda(targets)
                        (let* ((choice (funcall build--completing-read "Target: " targets)))
-                         (compile (format "make %s %s" choice (string-join args " ")))))))
+                         (funcall build--compile (format "make %s %s" choice (string-join args " ")))))))
 
 (with-eval-after-load 'transient
   ;; Make transient definition

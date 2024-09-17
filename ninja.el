@@ -25,6 +25,6 @@
          (arguments (string-replace "-C=" "-C " (string-join args " ")))
          ;; Replace -C= with -C since ninja doesn't like the equal sign.
          (command (format "ninja %s" arguments)))
-    (compile command)))
+    (funcall build--compile command)))
 
 (provide 'ninja)

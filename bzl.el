@@ -19,9 +19,7 @@
 ;;; Code
 
 (defun bzl-project-p ()
-  (if (project-current)
-      (file-exists-p (format "%s/BUILD" (project-root (project-current))))
-    nil))
+  (build--project-file-exists "BUILD"))
 
 (defun bzl--get-targets (callback query)
   "Call `callback' with all bazel targets that match `query'"
@@ -50,7 +48,7 @@
    (list (transient-args 'bzl/transient)))
   (bzl--get-targets (lambda(targets)
                       (let* ((choice (funcall build--completing-read "Target: " targets)))
-                        (compile (format "bazel build %s %s" choice (string-join args " ")))))
+                        (funcall build--compile (format "bazel build %s %s" choice (string-join args " ")))))
                     "//..."))
 
 (defun bzl/run (&optional args)
@@ -59,7 +57,7 @@
    (list (transient-args 'bzl/transient)))
   (bzl--get-targets (lambda(targets)
                       (let* ((choice (funcall build--completing-read "Target: " targets)))
-                        (compile (format "bazel run %s %s" choice (string-join args " ")))))
+                        (funcall build--compile (format "bazel run %s %s" choice (string-join args " ")))))
                     "kind(\".*_binary|oci_tarball|container_image|.*_deploy\", //...)"))
 
 (defun bzl/test (&optional args)
@@ -68,7 +66,7 @@
    (list (transient-args 'bzl/transient)))
   (bzl--get-targets (lambda(targets)
                       (let* ((choice (funcall build--completing-read "Target: " targets)))
-                        (compile (format "bazel test %s %s" choice (string-join args " ")))))
+                        (funcall build--compile (format "bazel test %s %s" choice (string-join args " ")))))
                     "kind(\".*_test\", //...)"))
 
 

@@ -16,21 +16,19 @@
 ;;; Code
 
 (defun cargo-project-p ()
-  (if (project-current)
-      (file-exists-p (format "%s/Cargo.toml" (project-root (project-current))))
-    nil))
+  (build--project-file-exists "Cargo.toml"))
 
 (defun cargo/build (&optional args)
   "Run cargo build with the provided ARGS."
   (interactive
    (list (transient-args 'cargo/transient)))
-  (compile (format "cargo build %s" (string-join args " "))))
+  (funcall build--compile (format "cargo build %s" (string-join args " "))))
 
 (defun cargo/run (&optional args)
   "Run cargo run with the provided ARGS."
   (interactive
    (list (transient-args 'cargo/transient)))
-  (compile (format "cargo run %s" (string-join args " "))))
+  (funcall build--compile (format "cargo run %s" (string-join args " "))))
 (with-eval-after-load 'transient
   (transient-define-prefix cargo/transient ()
     "Cargo Build Commands"

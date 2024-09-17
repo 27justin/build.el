@@ -16,9 +16,7 @@
 ;;; Code
 
 (defun cmake-project-p ()
-  (if (project-current)
-      (file-exists-p (format "%s/CMakeLists.txt" (project-root (project-current))))
-    nil))
+  (build--project-file-exists "CMakeLists.txt"))
 
 (defun cmake/build (&optional build-directory)
   "Run CMake build with the provided OPTIONS or default to '--build build'."
@@ -30,7 +28,7 @@
     (let ((build-command (if build-directory
                              (format "cmake --build %s" build-directory)
                            "cmake --build build")))
-      (compile build-command))))
+      (funcall build--compile build-command))))
 
 (defun cmake/generate (&optional defines)
   "Run CMake generate with the provided OPTIONS or default to `-S . -B build`."
@@ -42,7 +40,7 @@
     (let ((generate-command (if defines
                                 (format "cmake %s" (cmake--strip-defines defines))
                               "cmake -S . -B build")))
-      (compile generate-command))))
+      (funcall build--compile generate-command))))
 
 (defun cmake--strip-defines (args)
   "Remove `--defines` from ARGS list and keep `-D` options intact."
