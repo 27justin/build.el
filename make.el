@@ -20,19 +20,10 @@
 
 (defun make--get-targets (callback)
   "Call `callback' asynchronously with all Make targets that match `query'."
-  (let ((buffer (generate-new-buffer "*make-targets*")))  ;; Create a temporary buffer to capture output
+  (with-current-buffer (find-file (format "%s/Makefile" (project-root (project-current))))
+    (setq-local makefile-need-target-pickup t)
     (makefile-pickup-targets)
-    (make-process
-     :name "Make Targets Process"
-     :buffer buffer
-     :command '("sh" "-c" "make -qp | awk -F':' '/^[a-zA-Z0-9][^$#\\/\\t=]*:([^=]|$)/ {split($1,A,/ /);for(i in A)print A[i]}' | sort -u")
-     :sentinel (lambda (proc event)
-                 (when (string= event "finished\n")  ;; Check if the process has finished
-                   (with-current-buffer (process-buffer proc)
-                     (let ((output (buffer-string)))  ;; Get output from the buffer
-                       (funcall callback (split-string output "\n" t)))  ;; Call the callback with results
-                     (kill-buffer (process-buffer proc))))))))  ;; Clean up the buffer after processing
-
+    (funcall callback (flatten-list makefile-target-table))))
 
 (defun make/run (&optional args)
   "`bazel test' a target"
@@ -51,7 +42,7 @@
     ["Make Options\n"
      ["Generic"
       ("-f" "Makefile" "-f " :prompt "Path to Makefile: " :class transient-option)
-      ("-j" "Threads" "-j " :prompt "# of threads: " :class transient-option)
+      ("-j" "Threads" "-j " :prompt "# of threads: " :class transient-option :always-read t)
       ("v" "Variables" " " :prompt "Override variables: " :class transient-option :always-read t)
       ]
      ]
