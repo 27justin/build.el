@@ -42,7 +42,7 @@
         (list (transient-args 'make/transient))
        )
        (make--get-targets (lambda(targets)
-                         (let* ((choice (funcall bzl--completing-read "Target: " targets)))
+                         (let* ((choice (funcall build--completing-read "Target: " targets)))
                                (compile (format "make %s %s" choice (string-join args " ")))))))
 
 (with-eval-after-load 'transient

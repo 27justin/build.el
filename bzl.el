@@ -49,7 +49,6 @@
        "`bazel build' a target"
        (interactive
        (list (transient-args 'bzl/transient)))
-       (princ args)
        (bzl--get-targets (lambda(targets)
                          (let* ((choice (funcall build--completing-read "Target: " targets)))
                                (compile (format "bazel build %s %s" choice (string-join args " ")))))
