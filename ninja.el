@@ -19,13 +19,12 @@
 ;;; Code
 
 (defun ninja/build (&optional args)
-       (interactive
-        (list (transient-args transient-current-command)))
-        (let* (
-              (arguments (string-replace "-C=" "-C " (string-join args " ")))
-              ;; Replace -C= with -C since ninja doesn't like the equal sign.
-              (command (format "ninja %s" arguments)))
-            (compile command)))
+  (interactive
+   (list (transient-args transient-current-command)))
+  (let* (
+         (arguments (string-replace "-C=" "-C " (string-join args " ")))
+         ;; Replace -C= with -C since ninja doesn't like the equal sign.
+         (command (format "ninja %s" arguments)))
+    (compile command)))
 
 (provide 'ninja)
-

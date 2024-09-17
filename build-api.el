@@ -4,6 +4,7 @@
 
 ;; Author: Justin Andreas Lacoste <me@justin.cx>
 ;; URL: https://github.com/27justin/build.el
+;; Package-Requires: ((transient))
 ;; Version: 0.1
 ;; Keywords: compile, build-system, bazel
 
@@ -11,19 +12,23 @@
 
 ;; This package implements transient menus for multiple build systems.
 
-;;; Requirements
+;;; Requirements:
 
-;;; General variables
+(require 'project)
+(require 'transient)
+
+;;; General variables:
 (defvar build--completing-read  'completing-read
   "Use this variable to override the completion framework.
-        I've had issues with vertico, where lots of targets were being displayed
-        weirdly in vertico")
+I've had issues with vertico, where lots of targets were being displayed
+weirdly in vertico")
 
 (defvar build--systems '()
-  "List of build systems, you can add your own custom build system using 
- `(add-to-list 'build--systems '(my-build-system-p . my-build-system/transient))'")
+  "List of build systems, you can add your own custom build system using
+   `(add-to-list 'build--systems
+                '(my-build-system-p . my-build-system/transient))'")
 
-;;; Code
+;;; Code:
 
 (defun build-system-p ()
   "Check if any project predicate in `build--systems` returns true."
@@ -33,18 +38,17 @@
         (throw 'found t)))           ;; Return t if a match is found
     nil))                             ;; Return nil if no match is found
 
-(with-eval-after-load 'transient
-  ;; Define a unified transient for either Bazel or Make
-  (transient-define-prefix build/menu ()
-    "Project Build Commands"
-    (interactive)
-    ;; Check which project type to display
-    (catch 'found
-      (dolist (system build--systems)
-        (when (funcall (car system))   ;; Call the predicate (the car of each pair)
-          (funcall (cdr system))
-          (throw 'found t)))           ;; Return t if a match is found
-      (message "No known build system found in this project")))                            ;; Error if no match is found
-)
+;; Define a unified transient for either Bazel or Make
+(transient-define-prefix build/menu ()
+  "Project Build Commands"
+  (interactive)
+  ;; Check which project type to display
+  (catch 'found
+    (dolist (system build--systems)
+      (when (funcall (car system))   ;; Call the predicate (the car of each pair)
+        (funcall (cdr system))
+        (throw 'found t)))           ;; Return t if a match is found
+    (message "No known build system found in this project")))                            ;; Error if no match is found
 
 (provide 'build-api)
+;;; build-api.el ends here

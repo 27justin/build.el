@@ -16,9 +16,9 @@
 ;;; Code
 
 (defun cmake-project-p ()
-       (if (project-current)
-             (file-exists-p (format "%s/CMakeLists.txt" (project-root (project-current))))
-             nil))
+  (if (project-current)
+      (file-exists-p (format "%s/CMakeLists.txt" (project-root (project-current))))
+    nil))
 
 (defun cmake/build (&optional build-directory)
   "Run CMake build with the provided OPTIONS or default to '--build build'."
@@ -64,16 +64,16 @@
     "CMake Build Commands"
     :value '("-S=." "-B=build" "--defines=-DCMAKE_BUILD_TYPE=Release")
     ["CMake Options\n"
-        ["Generic"
-            ("-S" "Set source directory" "-S=" :prompt "Path to source: ")
-            ("-B" "Set build directory" "-B=" :prompt "Path to build: ")
-            ("-D" "Defines" cmake--defines-argument)
-        ]
-    ]
+     ["Generic"
+      ("-S" "Set source directory" "-S=" :prompt "Path to source: ")
+      ("-B" "Set build directory" "-B=" :prompt "Path to build: ")
+      ("-D" "Defines" cmake--defines-argument)
+      ]
+     ]
     ["Build"
-        ("g" "Generate" cmake/generate)
-        ("b" "Build" cmake/build)
-    ]))
+     ("g" "Generate" cmake/generate)
+     ("b" "Build" cmake/build)
+     ]))
 
 (add-to-list 'build--systems '(cmake-project-p . cmake/transient))
 (provide 'cmake)

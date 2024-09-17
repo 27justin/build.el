@@ -15,9 +15,9 @@
 ;;; Code
 
 (defun make-project-p ()
-       (if (project-current)
-             (file-exists-p (format "%s/Makefile" (project-root (project-current))))
-             nil))
+  (if (project-current)
+      (file-exists-p (format "%s/Makefile" (project-root (project-current))))
+    nil))
 
 (defun make--get-targets (callback)
   "Call `callback' asynchronously with all Make targets that match `query'."
@@ -35,13 +35,13 @@
 
 
 (defun make/run (&optional args)
-       "`bazel test' a target"
-       (interactive
-        (list (transient-args 'make/transient))
-       )
-       (make--get-targets (lambda(targets)
-                         (let* ((choice (funcall build--completing-read "Target: " targets)))
-                               (compile (format "make %s %s" choice (string-join args " ")))))))
+  "`bazel test' a target"
+  (interactive
+   (list (transient-args 'make/transient))
+   )
+  (make--get-targets (lambda(targets)
+                       (let* ((choice (funcall build--completing-read "Target: " targets)))
+                         (compile (format "make %s %s" choice (string-join args " ")))))))
 
 (with-eval-after-load 'transient
   ;; Make transient definition
@@ -49,17 +49,17 @@
     "Make Commands"
     :value '("-j 1" "-f Makefile")
     ["Make Options\n"
-        ["Generic"
-            ("-f" "Makefile" "-f " :prompt "Path to Makefile: " :class transient-option)
-            ("-j" "Threads" "-j " :prompt "# of threads: " :class transient-option)
-            ("v" "Variables" " " :prompt "Override variables: " :class transient-option :always-read t)
-        ]
-    ]
+     ["Generic"
+      ("-f" "Makefile" "-f " :prompt "Path to Makefile: " :class transient-option)
+      ("-j" "Threads" "-j " :prompt "# of threads: " :class transient-option)
+      ("v" "Variables" " " :prompt "Override variables: " :class transient-option :always-read t)
+      ]
+     ]
     [""
-        ["Run"
-            ("r" "Run" make/run)
-        ]
-    ]))
+     ["Run"
+      ("r" "Run" make/run)
+      ]
+     ]))
 
 (add-to-list 'build--systems '(make-project-p . make/transient))
 (provide 'make)

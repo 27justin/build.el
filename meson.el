@@ -20,37 +20,37 @@
 ;;; Code
 
 (defun meson-project-p ()
-       (if (project-current)
-             (file-exists-p (format "%s/meson.build" (project-root (project-current))))
-             nil))
+  (if (project-current)
+      (file-exists-p (format "%s/meson.build" (project-root (project-current))))
+    nil))
 
 (defun meson/setup (&optional directory)
-       "`meson setup' a target"
-       (interactive
-       (list (transient-arg-value "-C=" (transient-args 'meson/transient))))
-       (princ (transient-args 'meson/transient))
-       (compile (format "meson setup %s" directory)))
+  "`meson setup' a target"
+  (interactive
+   (list (transient-arg-value "-C=" (transient-args 'meson/transient))))
+  (princ (transient-args 'meson/transient))
+  (compile (format "meson setup %s" directory)))
 
 (with-eval-after-load 'transient
   ;; Bazel transient definition
   (transient-define-prefix meson/transient ()
     "Meson Build Commands"
-      :value '("build")
+    :value '("build")
     ["Meson Options\n"
-        ["Generic"
-            ("-C" "Build directory" "-C=" :prompt "Build directory: " :class transient-option :always-read t)
-        ]
-        ["Ninja Options"
-            ("-j" "Threads" "-j " :prompt "# of threads: " :class transient-option)
-            ("-n" "Dry run" "-n")
-        ]
-    ]
+     ["Generic"
+      ("-C" "Build directory" "-C=" :prompt "Build directory: " :class transient-option :always-read t)
+      ]
+     ["Ninja Options"
+      ("-j" "Threads" "-j " :prompt "# of threads: " :class transient-option)
+      ("-n" "Dry run" "-n")
+      ]
+     ]
     [""
-        ["Setup"
-            ("s" "Setup" meson/setup)]
-        ["Build"
-            ("b" "Build (Ninja)" ninja/build)]
-    ]))
+     ["Setup"
+      ("s" "Setup" meson/setup)]
+     ["Build"
+      ("b" "Build (Ninja)" ninja/build)]
+     ]))
 
 (add-to-list 'build--systems '(meson-project-p . meson/transient))
 
