@@ -19,7 +19,7 @@
 ;;; Code
 
 (defun bzl-project-p ()
-  (build--project-file-exists "BUILD"))
+  (build--project-file-exists-p "BUILD"))
 
 (defun bzl--get-targets (callback query)
   "Call `callback' with all bazel targets that match `query'"

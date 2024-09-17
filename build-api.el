@@ -4,7 +4,7 @@
 
 ;; Author: Justin Andreas Lacoste <me@justin.cx>
 ;; URL: https://github.com/27justin/build.el
-;; Package-Requires: ((transient))
+;; Package-Requires: ((transient) (seq))
 ;; Version: 0.1
 ;; Keywords: compile, build-system, bazel
 
@@ -16,6 +16,7 @@
 
 (require 'project)
 (require 'transient)
+(require 'seq)
 
 ;;; General variables:
 
@@ -44,7 +45,7 @@ weirdly."
 
 ;;; Code:
 
-(defun build--project-file-exists (file)
+(defun build--project-file-exists-p (file)
   (and (project-current)
        (file-exists-p (format "%s/%s" (project-root (project-current)) file))))
 
@@ -57,12 +58,11 @@ weirdly."
   "Project Build Commands"
   (interactive)
   ;; Check which project type to display
-  (catch 'found
-    (dolist (system build--systems)
-      (when (funcall (car system))   ;; Call the predicate (the car of each pair)
-        (funcall (cdr system))
-        (throw 'found t)))           ;; Return t if a match is found
-    (message "No known build system found in this project")))                            ;; Error if no match is found
+  (seq-some (lambda (system)
+              (when (funcall (car system))
+                ;; Run the transient when our build-system predicate matches.
+                (funcall (cdr system))))
+            build--systems))
 
 (provide 'build-api)
 ;;; build-api.el ends here

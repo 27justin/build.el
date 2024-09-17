@@ -20,7 +20,7 @@
 ;;; Code
 
 (defun meson-project-p ()
-  (build--project-file-exists "meson.build"))
+  (build--project-file-exists-p "meson.build"))
 
 (defun meson/setup (&optional directory)
   "`meson setup' a target"

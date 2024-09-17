@@ -16,7 +16,7 @@
 ;;; Code
 
 (defun cargo-project-p ()
-  (build--project-file-exists "Cargo.toml"))
+  (build--project-file-exists-p "Cargo.toml"))
 
 (defun cargo/build (&optional args)
   "Run cargo build with the provided ARGS."

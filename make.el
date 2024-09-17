@@ -16,7 +16,7 @@
 ;;; Code
 
 (defun make-project-p ()
-  (build--project-file-exists "Makefile"))
+  (build--project-file-exists-p "Makefile"))
 
 (defun make--get-targets (callback)
   "Call `callback' asynchronously with all Make targets that match `query'."
