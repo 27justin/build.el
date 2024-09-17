@@ -49,7 +49,10 @@ project and show that instead.
 
 * Demo
 
-#+html: <video loop autoplay controls src="https://github.com/user-attachments/assets/5dfb9f29-300b-4b19-97c3-681b96098100"></video>
+#+html: <img style="width: 50%" src="https://github.com/user-attachments/assets/4fd17387-24af-47a2-92a1-2cf7065c73eb" />
+#+html: <img style="width: 50%" src="https://github.com/user-attachments/assets/9f4a4a7b-c925-4e3d-9acb-45c833a7c7ab" />
+#+html: <img style="width: 50%" src="https://github.com/user-attachments/assets/86409bc6-274e-493a-8950-f880d8bf4822" />
+#+html: <img style="width: 50%" src="https://github.com/user-attachments/assets/b3d73988-9972-42a9-821a-f3b349c38cd7" />
 
 * Installation
 
