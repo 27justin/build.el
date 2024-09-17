@@ -1,20 +1,51 @@
-#+title: bzl.el
-#+description: Build Bazel targets directly through Emacs
+#+title: build.el
+#+description: Build your projects directly in Emacs, without hassle
 
-This package allows you to directly build [[https://github.com/bazelbuild/bazel][Bazel]] projects within Emacs
-without memorizing the targets.
+This package strives to provide clean and easy to understand
+functions, as well as a transient menu, to build projects of various
+build systems.
 
+
+* Features
+Supported build systems:
+
++ Bazel
++ Make
++ CMake
++ Cargo
 
 * Usage
 
-bzl.el exposes these interactive commands
-+ ~bzl/run~
-+ ~bzl/build~
-+ ~bzl/test~
+build.el provides interactive build commands for each build system.
+Build commands are prefixed by the name of the build system:
 
-It tries to be smart with queries to only show the likely appropiate
-targets for the given command (i.e. run/test).  ~bzl/build~ lists all
-targets the project has.
+| Build system | Prefix |
+|--------------+--------|
+| CMake        | cmake/ |
+| Bazel        | bzl/   |
+| Make         | make/  |
+| Cargo        | cargo/ |
+
+Each build system exposes different amounts of functions, depending on
+the capability of the build system.
+
+Though in general, where-ever possible, build.el will try to
+auto-complete possible targets given the context for you.
+
+~Make~, only has ~make/run~, which will prompt you for a target that
+should be ran, the targets are auto-completed from the Makefile itself.
+
+~Bazel~, on the other hand, has ~bzl/run~, ~bzl/test~, and
+~bzl/build~.  Running any of the commands will trigger a
+~completing-read~ auto suggestion with matching targets.
+
+
+~CMake~, has ~cmake/build~ and ~cmake/generate~.
+
+Each build system also has it's own transient menu, these are always
+called ~<system>/transient~.  Though you will probably want to use
+~build/menu~, which will try to infer the build system of the current
+project and show that instead.
 
 * Demo
 
@@ -25,14 +56,14 @@ targets the project has.
 ** Manually
 Clone the repository:
 #+BEGIN_SRC bash
- git clone https://github.com/27justin/bzl.el ~/.emacs.d/site-lisp/bzl.el
+ git clone https://github.com/27justin/build.el ~/.emacs.d/site-lisp/build.el
 #+END_SRC
 
 Add it to your load path
 
 #+BEGIN_SRC elisp
-  (add-to-list 'load-path "~/.emacs.d/site-lisp/bzl.el")
-  (require 'bzl)
+  (add-to-list 'load-path "~/.emacs.d/site-lisp/build.el")
+  (use-package build)
 #+END_SRC
 
 Done.
