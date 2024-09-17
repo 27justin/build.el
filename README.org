@@ -13,18 +13,20 @@ Supported build systems:
 + Make
 + CMake
 + Cargo
++ Meson + Ninja
 
 * Usage
 
 build.el provides interactive build commands for each build system.
 Build commands are prefixed by the name of the build system:
 
-| Build system | Prefix |
-|--------------+--------|
-| CMake        | cmake/ |
-| Bazel        | bzl/   |
-| Make         | make/  |
-| Cargo        | cargo/ |
+| Build system | Prefix         |
+|--------------+----------------|
+| CMake        | cmake/         |
+| Bazel        | bzl/           |
+| Make         | make/          |
+| Cargo        | cargo/         |
+| Meson+Ninja  | meson/, ninja/ |
 
 Each build system exposes different amounts of functions, depending on
 the capability of the build system.
