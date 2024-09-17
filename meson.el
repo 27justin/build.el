@@ -5,12 +5,11 @@
 ;; Author: Justin Andreas Lacoste <me@justin.cx>
 ;; URL: https://github.com/27justin/build.el
 ;; Version: 0.1
-;; Package-Requires: ((emacs "?"))
-;; Keywords: compile, build-system, bazel
+;; Keywords: compile, build-system, meson
 
 ;;; Commentary:
 
-;; This package implements a transient menu for the bazel build system.
+;; This package implements a transient menu for the meson build system.
 ;; Alongside three interactive commands.
 
 ;;; Requirements

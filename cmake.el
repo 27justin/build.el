@@ -3,9 +3,8 @@
 ;; Copyright (C) 2024  Justin Andreas Lacoste
 
 ;; Author: Justin Andreas Lacoste <me@justin.cx>
-;; URL: https://github.com/27justin/bzl.el
+;; URL: https://github.com/27justin/build.el
 ;; Version: 0.1
-;; Package-Requires: ((emacs "?"))
 ;; Keywords: compile, build-system, cmake
 
 ;;; Commentary:

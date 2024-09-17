@@ -5,7 +5,6 @@
 ;; Author: Justin Andreas Lacoste <me@justin.cx>
 ;; URL: https://github.com/27justin/build.el
 ;; Version: 0.1
-;; Package-Requires: ((emacs "?"))
 ;; Keywords: compile, build-system, cargo
 
 ;;; Commentary:
