@@ -12,12 +12,15 @@
 ;; This package implements transient menus for multiple build systems.
 
 ;;; Requirements
+
 (require 'build-api)
-(require 'bzl)
-(require 'make)
-(require 'cmake)
-(require 'cargo)
-(require 'meson)
-(require 'ninja)
+
+(require 'build-bazel)
+(require 'build-make)
+(require 'build-cmake)
+(require 'build-cargo)
+(require 'build-meson)
+(require 'build-ninja)
+(require 'build-npm)
 
 (provide 'build)

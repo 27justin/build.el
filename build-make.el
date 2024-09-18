@@ -15,7 +15,7 @@
 
 ;;; Code
 
-(defun make-project-p ()
+(defun build-make-project-p ()
   (build--project-file-exists-p "Makefile"))
 
 (defun make--get-targets (callback)
@@ -25,10 +25,10 @@
     (makefile-pickup-targets)
     (funcall callback (flatten-list makefile-target-table))))
 
-(defun make/run (&optional args)
+(defun build-make-run (&optional args)
   "`bazel test' a target"
   (interactive
-   (list (transient-args 'make/transient))
+   (list (transient-args 'build-make-transient))
    )
   (make--get-targets (lambda(targets)
                        (let* ((choice (funcall build--completing-read "Target: " targets)))
@@ -36,7 +36,7 @@
 
 (with-eval-after-load 'transient
   ;; Make transient definition
-  (transient-define-prefix make/transient ()
+  (transient-define-prefix build-make-transient ()
     "Make Commands"
     :value '("-j 1" "-f Makefile")
     ["Make Options\n"
@@ -48,9 +48,9 @@
      ]
     [""
      ["Run"
-      ("r" "Run" make/run)
+      ("r" "Run" build-make-run)
       ]
      ]))
 
-(add-to-list 'build--systems '(make-project-p . make/transient))
-(provide 'make)
+(add-to-list 'build--systems '(build-make-project-p . build-make-transient))
+(provide 'build-make)

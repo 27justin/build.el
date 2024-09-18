@@ -15,22 +15,22 @@
 
 ;;; Code
 
-(defun cargo-project-p ()
+(defun build-cargo-project-p ()
   (build--project-file-exists-p "Cargo.toml"))
 
-(defun cargo/build (&optional args)
+(defun build-cargo-build (&optional args)
   "Run cargo build with the provided ARGS."
   (interactive
-   (list (transient-args 'cargo/transient)))
+   (list (transient-args 'build-cargo-transient)))
   (funcall build--compile (format "cargo build %s" (string-join args " "))))
 
-(defun cargo/run (&optional args)
+(defun build-cargo-run (&optional args)
   "Run cargo run with the provided ARGS."
   (interactive
-   (list (transient-args 'cargo/transient)))
+   (list (transient-args 'build-cargo-transient)))
   (funcall build--compile (format "cargo run %s" (string-join args " "))))
 (with-eval-after-load 'transient
-  (transient-define-prefix cargo/transient ()
+  (transient-define-prefix build-cargo-transient ()
     "Cargo Build Commands"
     :value '("--debug")
     :incompatible '(("--release" "--profile ")
@@ -49,13 +49,13 @@
      ]
     [""
      ["Build"
-      ("b" "Build" cargo/build)
+      ("b" "Build" build-cargo-build)
       ]
      ["Run"
-      ("r" "Run" cargo/run)
+      ("r" "Run" build-cargo-run)
       ]
      ]))
 
-(add-to-list 'build--systems '(cargo-project-p . cargo/transient))
+(add-to-list 'build--systems '(build-cargo-project-p . build-cargo-transient))
 
-(provide 'cargo)
+(provide 'build-cargo)

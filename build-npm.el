@@ -14,6 +14,7 @@
 ;;; Requirements
 
 (require 'build-api)
+(require 'json)
 
 ;;; Code
 

@@ -15,20 +15,20 @@
 ;;; Requirements
 
 (require 'build-api)
-(require 'ninja)
+(require 'build-ninja)
 
 ;;; Code
 
-(defun meson-project-p ()
+(defun build-meson-project-p ()
   (build--project-file-exists-p "meson.build"))
 
-(defun meson/setup (&optional directory)
+(defun build-meson-setup (&optional directory)
   "`meson setup' a target"
   (interactive
-   (list (transient-arg-value "-C=" (transient-args 'meson/transient))))
+   (list (transient-arg-value "-C=" (transient-args 'build-meson-transient))))
   (funcall build--compile (format "meson setup %s" directory)))
 
-(transient-define-prefix meson/transient ()
+(transient-define-prefix build-meson-transient ()
   "Meson Build Commands"
   :value '("build")
   ["Meson Options\n"
@@ -42,11 +42,11 @@
    ]
   [""
    ["Setup"
-    ("s" "Setup" meson/setup)]
+    ("s" "Setup" build-meson-setup)]
    ["Build"
-    ("b" "Build (Ninja)" ninja/build)]
+    ("b" "Build (Ninja)" build-ninja-build)]
    ])
 
-(add-to-list 'build--systems '(meson-project-p . meson/transient))
+(add-to-list 'build--systems '(build-meson-project-p . build-meson-transient))
 
-(provide 'meson)
+(provide 'build-meson)

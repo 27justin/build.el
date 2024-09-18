@@ -1,4 +1,4 @@
-;;; bzl.el --- Build Bazel projects in Emacs -*- lexical-binding: t; -*-
+;;; bazel.el --- Build Bazel projects in Emacs -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2024  Justin Andreas Lacoste
 
@@ -18,10 +18,10 @@
 
 ;;; Code
 
-(defun bzl-project-p ()
+(defun build-bazel-project-p ()
   (build--project-file-exists-p "BUILD"))
 
-(defun bzl--get-targets (callback query)
+(defun build-bazel--get-targets (callback query)
   "Call `callback' with all bazel targets that match `query'"
   (let* ((buffer (get-buffer-create "*bazel-query*" t))  ;; Create a persistent buffer
          (base-command (list "bazel" "query" query "--keep_going")))
@@ -42,36 +42,36 @@
                  (funcall callback (with-current-buffer (process-buffer proc)
                                      (split-string (buffer-string) "\n" t)))))))
 
-(defun bzl/build (&optional args)
+(defun build-bazel-build (&optional args)
   "`bazel build' a target"
   (interactive
-   (list (transient-args 'bzl/transient)))
-  (bzl--get-targets (lambda(targets)
+   (list (transient-args 'build-bazel-transient)))
+  (build-bazel--get-targets (lambda(targets)
                       (let* ((choice (funcall build--completing-read "Target: " targets)))
                         (funcall build--compile (format "bazel build %s %s" choice (string-join args " ")))))
                     "//..."))
 
-(defun bzl/run (&optional args)
+(defun build-bazel-run (&optional args)
   "`bazel run' a target"
   (interactive
-   (list (transient-args 'bzl/transient)))
-  (bzl--get-targets (lambda(targets)
+   (list (transient-args 'build-bazel-transient)))
+  (build-bazel--get-targets (lambda(targets)
                       (let* ((choice (funcall build--completing-read "Target: " targets)))
                         (funcall build--compile (format "bazel run %s %s" choice (string-join args " ")))))
                     "kind(\".*_binary|oci_tarball|container_image|.*_deploy\", //...)"))
 
-(defun bzl/test (&optional args)
+(defun build-bazel-test (&optional args)
   "`bazel test' a target"
   (interactive
-   (list (transient-args 'bzl/transient)))
-  (bzl--get-targets (lambda(targets)
+   (list (transient-args 'build-bazel-transient)))
+  (build-bazel--get-targets (lambda(targets)
                       (let* ((choice (funcall build--completing-read "Target: " targets)))
                         (funcall build--compile (format "bazel test %s %s" choice (string-join args " ")))))
                     "kind(\".*_test\", //...)"))
 
 
 ;; Bazel transient definition
-(transient-define-prefix bzl/transient ()
+(transient-define-prefix build-bazel-transient ()
   "Bazel Build Commands"
   :value '("-c fastbuild")
   ["Bazel Options\n"
@@ -87,13 +87,13 @@
    ]
   [""
    ["Build"
-    ("b" "Build" bzl/build)]
+    ("b" "Build" build-bazel-build)]
    ["Test"
-    ("t" "Test" bzl/test)]
+    ("t" "Test" build-bazel-test)]
    ["Run"
-    ("r" "Run" bzl/run)]
+    ("r" "Run" build-bazel-run)]
    ])
 
-(add-to-list 'build--systems '(bzl-project-p . bzl/transient))
+(add-to-list 'build--systems '(build-bazel-project-p . build-bazel-transient))
 
-(provide 'bzl)
+(provide 'build-bazel)

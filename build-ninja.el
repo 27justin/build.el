@@ -18,7 +18,7 @@
 
 ;;; Code
 
-(defun ninja/build (&optional args)
+(defun build-ninja-build (&optional args)
   (interactive
    (list (transient-args transient-current-command)))
   (let* (
@@ -27,4 +27,4 @@
          (command (format "ninja %s" arguments)))
     (funcall build--compile command)))
 
-(provide 'ninja)
+(provide 'build-ninja)

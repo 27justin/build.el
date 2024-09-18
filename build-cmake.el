@@ -17,13 +17,13 @@
 
 ;;; Code
 
-(defun cmake-project-p ()
+(defun build-cmake-project-p ()
   (build--project-file-exists-p "CMakeLists.txt"))
 
-(defun cmake/build (&optional build-directory)
+(defun build-cmake-build (&optional build-directory)
   "Run CMake build with the provided OPTIONS or default to '--build build'."
   (interactive
-   (list (transient-arg-value "-B=" (transient-args 'cmake/transient))))
+   (list (transient-arg-value "-B=" (transient-args 'build-cmake-transient))))
   (let* ((default-directory (project-root (project-current)))
          (build-command (if build-directory
                             (format "cmake --build %s" build-directory)
@@ -31,10 +31,10 @@
     ;; If options are provided, use them, otherwise default to `--build build`
     (funcall build--compile build-command)))
 
-(defun cmake/generate (&optional defines)
+(defun build-cmake-generate (&optional defines)
   "Run CMake generate with the provided OPTIONS or default to `-S . -B build`."
   (interactive
-   (list (transient-args 'cmake/transient)))
+   (list (transient-args 'build-cmake-transient)))
 
   (let ((default-directory (project-root (project-current))))
     ;; If options are provided, use them, otherwise default to `-S . -B build`
@@ -43,7 +43,7 @@
                               "cmake -S . -B build")))
       (funcall build--compile generate-command))))
 
-(transient-define-prefix cmake/transient ()
+(transient-define-prefix build-cmake-transient ()
   "CMake Build Commands"
   :value '("-S=." "-B=build" "--defines=-DCMAKE_BUILD_TYPE=Release")
   ["CMake Options\n"
@@ -54,9 +54,9 @@
     ]
    ]
   ["Build"
-   ("g" "Generate" cmake/generate)
-   ("b" "Build" cmake/build)
+   ("g" "Generate" build-cmake-generate)
+   ("b" "Build" build-cmake-build)
    ])
 
-(add-to-list 'build--systems '(cmake-project-p . cmake/transient))
-(provide 'cmake)
+(add-to-list 'build--systems '(build-cmake-project-p . build-cmake-transient))
+(provide 'build-cmake)
