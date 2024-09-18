@@ -14,6 +14,7 @@ Supported build systems:
 + CMake
 + Cargo
 + Meson + Ninja
++ NPM
 
 * Usage
 
@@ -56,6 +57,7 @@ project and show that instead.
 #+html: <img style="width: 50%" src="https://github.com/user-attachments/assets/86409bc6-274e-493a-8950-f880d8bf4822" />
 #+html: <img style="width: 50%" src="https://github.com/user-attachments/assets/5de4ec37-6334-4788-9bc8-92cf06666c91" />
 #+html: <img style="width: 50%" src="https://github.com/user-attachments/assets/08e9c25a-d1f9-4115-b7f7-cf70fc1b8b21" />
+#+html: <img style="width: 50%" src="https://github.com/user-attachments/assets/bd46f6eb-6c67-42a8-89da-853b710547b5" />
 
 * Installation
 
