@@ -54,7 +54,7 @@ weirdly."
   (seq-some (lambda (system) (funcall (car system))) build--systems))
 
 ;; Define a unified transient for either Bazel or Make
-(transient-define-prefix build/menu ()
+(transient-define-prefix build-menu ()
   "Project Build Commands"
   (interactive)
   ;; Check which project type to display

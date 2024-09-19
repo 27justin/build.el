@@ -21,13 +21,14 @@ Supported build systems:
 build.el provides interactive build commands for each build system.
 Build commands are prefixed by the name of the build system:
 
-| Build system | Prefix         |
-|--------------+----------------|
-| CMake        | cmake/         |
-| Bazel        | bzl/           |
-| Make         | make/          |
-| Cargo        | cargo/         |
-| Meson+Ninja  | meson/, ninja/ |
+| Build system | Prefix                     |
+|--------------+----------------------------|
+| CMake        | build-cmake-               |
+| Bazel        | build-bazel-               |
+| Make         | build-make-                |
+| Cargo        | build-cargo-               |
+| Meson+Ninja  | build-meson-, build-ninja- |
+| NPM          | build-npm-                 |
 
 Each build system exposes different amounts of functions, depending on
 the capability of the build system.
@@ -35,19 +36,24 @@ the capability of the build system.
 Though in general, where-ever possible, build.el will try to
 auto-complete possible targets given the context for you.
 
-~Make~, only has ~make/run~, which will prompt you for a target that
+~Make~, only has ~build-make-run~, which will prompt you for a target that
 should be ran, the targets are auto-completed from the Makefile itself.
 
-~Bazel~, on the other hand, has ~bzl/run~, ~bzl/test~, and
-~bzl/build~.  Running any of the commands will trigger a
+~Bazel~, on the other hand, has ~build-bazel-run~, ~build-bazel-test~, and
+~build-bazel-build~.  Running any of the commands will trigger a
 ~completing-read~ auto suggestion with matching targets.
 
 
-~CMake~, has ~cmake/build~ and ~cmake/generate~.
+~CMake~ has ~build-cmake-build~ and ~build-cmake-generate~.
 
-Each build system also has it's own transient menu, these are always
-called ~<system>/transient~.  Though you will probably want to use
-~build/menu~, which will try to infer the build system of the current
+~Meson~ has ~build-meson-setup~, compilation is done via ~build-ninja-build~.
+
+~NPM~ has ~build-npm-run~, ~build-npm-install~ and ~build-npm-uninstall~.
+~run~, and ~uninstall~ will be autocompleted from the ~package.json~ in the project root.
+
+In general, each build system has it's own transient menu, these are always
+called ~build-<system>-transient~.  Though you will probably want to use
+~build-menu~, which will try to infer the build system of the current
 project and show that instead.
 
 * Demo
