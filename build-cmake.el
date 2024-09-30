@@ -48,7 +48,7 @@ If an element in `list` starts with any string in `args`, it will be stripped."
   (interactive
    (list (transient-args 'build-cmake-transient)))
   (let* ((default-directory (project-root (project-current)))
-         (build-command (format "cmake --build %s %s" (transient-arg-value "-B=" args) (string-join (build--cmake-strip-arguments args '("-B=" "-S=" "-G=")) " "))))
+         (build-command (format "cmake --build %s %s" (transient-arg-value "-B=" args) (string-join (build--cmake-strip-arguments args '("-B=" "-S=" "-G=" " -D")) " "))))
     (funcall build--compile build-command)))
 
 (defun build-cmake-generate (&optional args)
